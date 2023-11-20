@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Include the Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="container mx-auto p-4">
+        <div class="flex justify-between">
+            <h1 class="text-2xl font-semibold mb-4">Risky Behavior Monitoring Dashboard</h1>
+
+            <!-- Bar at the top right to show the total users pending to be verified -->
+            <div class="flex justify-end mb-4">
+                <div id="pendingCount" class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                    <!-- Total pending count will be updated dynamically -->
+                    Pending: <span id="pendingUsersCount">4</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <
+            <div class="bg-white p-4 rounded-md shadow-md mb-4">
+                <h2 class="text-lg font-semibold mb-2">User 1</h2>
+                <p class="text-gray-600">Risk Level: High</p>
+                <div class="mt-4">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md mr-2" onclick="markAsVerified(1)">Verified</button>
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded-md">Risk Pending</button>
+                    <span id="verificationStatus1" class="ml-2"></span>
+                </div>
+                <!-- Add more user details here -->
+            </div>
+
+            <div class="bg-white p-4 rounded-md shadow-md mb-4">
+                <h2 class="text-lg font-semibold mb-2">User 2</h2>
+                <p class="text-gray-600">Risk Level: Medium</p>
+                <div class="mt-4">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md mr-2" onclick="markAsVerified(2)">Verified</button>
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded-md">Risk Pending</button>
+                    <span id="verificationStatus2" class="ml-2"></span>
+                </div>
+                <!-- Add more user details here -->
+            </div>
+
+            <div class="bg-white p-4 rounded-md shadow-md mb-4">
+                <h2 class="text-lg font-semibold mb-2">User 3</h2>
+                <p class="text-gray-600">Risk Level: Low</p>
+                <div class="mt-4">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md mr-2" onclick="markAsVerified(3)">Verified</button>
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded-md">Risk Pending</button>
+                    <span id="verificationStatus3" class="ml-2"></span>
+                </div>
+                <!-- Add more user details here -->
+            </div>
+
+            <div class="bg-white p-4 rounded-md shadow-md mb-4">
+                <h2 class="text-lg font-semibold mb-2">User 4</h2>
+                <p class="text-gray-600">Risk Level: High</p>
+                <div class="mt-4">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md mr-2" onclick="markAsVerified(4)">Verified</button>
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded-md">Risk Pending</button>
+                    <span id="verificationStatus4" class="ml-2"></span>
+                </div>
+                <!-- Add more user details here -->
+            </div>
+
+            <!-- Add more user cards as needed -->
+
+        </div>
+
+        <!-- Display "No review pending" message if all users are verified -->
+        <div id="noReviewPendingMessage" class="text-xl font-semibold text-green-500 mt-4 hidden">
+            No review pending
+        </div>
+    </div>
+
+    <script>
+        // Placeholder array for user data
+        let users = [
+            { id: 1, name: 'John Doe', riskLevel: 'High', status: 'Pending' },
+            { id: 2, name: 'Jane Doe', riskLevel: 'Medium', status: 'Pending' },
+            { id: 3, name: 'Bob Smith', riskLevel: 'Low', status: 'Pending' },
+            { id: 4, name: 'Alice Johnson', riskLevel: 'High', status: 'Pending' }
+        ];
+
+        // Display total pending count at the beginning
+        updatePendingCount();
+
+        function markAsVerified(userId) {
+            // Find the user by userId and update the status to 'Verified'
+            // Update the UI by adding a tick sign next to the user's name
+
+            // Replace this with your actual logic to update the user status
+            let user = users.find(u => u.id === userId);
+            if (user) {
+                user.status = 'Verified';
+                document.getElementById(`verificationStatus${userId}`).innerHTML = '&#10004; Verified';
+
+                // Check if all users are verified
+                if (users.every(u => u.status === 'Verified')) {
+                    // Display "No review pending" message
+                    document.getElementById('noReviewPendingMessage').classList.remove('hidden');
+                }
+
+                // Update the total pending count
+                updatePendingCount();
+            }
+        }
+
+        function updatePendingCount() {
+            // Get the count of users with status 'Pending'
+            let pendingCount = users.filter(u => u.status === 'Pending').length;
+
+            // Update the total pending count in the UI
+            document.getElementById('pendingUsersCount').innerText = pendingCount;
+
+            // If there are no pending users, hide the pending count bar
+            if (pendingCount === 0) {
+                document.getElementById('pendingCount').classList.add('hidden');
+            } else {
+                document.getElementById('pendingCount').classList.remove('hidden');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
